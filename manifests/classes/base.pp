@@ -6,4 +6,11 @@ class openerp::base {
     managehome => true,
   }
 
+  file {"/srv/openerp/.ssh":
+    ensure => directory,
+    owner  => openerp,
+    group  => openerp,
+    mode   => 0755,
+    require=> User['openerp'],
+  }
 }

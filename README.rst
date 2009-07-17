@@ -29,11 +29,11 @@ Example
 -------
 Server node, with web-client, from sources::
   node "myserver.node" {
-    include openerp::server::sources
-    include openerp::client::sources::web
+  include openerp::server::sources
+  include openerp::client::sources::web
   }
 
 Client node, from sources::
   node "myclient.node" {
-    include openerp::client::sources::gtk
+  include openerp::client::sources::gtk
   }

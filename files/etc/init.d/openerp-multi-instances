@@ -1,0 +1,44 @@
+#!/bin/sh -e
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+OPENERP_ADMIN=/srv/openerp/openerp-admin.py
+
+if [ -f "$OPENERP_ADMIN" ]
+   then 
+       echo 'openerp-admin.py found'
+   else 
+       echo "$(hostname -f) : error openerp-admin.py is missing on server" | mail -s "openerp problem" tinyerp@camptocamp.com
+       exit 2
+fi 
+echo $1
+case "$1" in
+  start)
+    echo -n "Starting OpenERP multi instances: "
+    for i in $($OPENERP_ADMIN --list |awk 'FNR>1' |awk '{ print $1 ":" $4 }'); do
+      name=$(echo $i |cut -d ':' -f1)
+      startonboot=$(echo $i |cut -d ':' -f2)
+      if [ $startonboot == "1" ]; then
+        $OPENERP_ADMIN --start $name
+      fi
+    done
+    echo -n "done"
+    echo
+    ;;
+
+  stop)
+    echo -n "Stopping OpenERP multi instances: "
+    for i in $($OPENERP_ADMIN --list |awk 'FNR>1' |awk '{ print $1 }'); do
+      $OPENERP_ADMIN --stop $i
+    done
+    echo -n "done"
+    echo
+    ;;
+
+  *)
+    N=/etc/init.d/$NAME
+    echo "Usage: $N {start|stop}" >&2
+    exit 1
+    ;;
+esac
+exit 0
+

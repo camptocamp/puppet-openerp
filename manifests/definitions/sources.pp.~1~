@@ -1,0 +1,22 @@
+define openerp::sources ($ensure=present,$basedir,$url,$owner,$group) {
+  case $ensure {
+    "present": {
+      exec {"bzr branch $name from $url to ${basedir}${name}":
+        command  => "bzr co ${url} ${basedir}${name} && chown -R ${user}:${group} ${basedir}${name}",
+        creates  => "${basedir}${name}",
+        timeout  => 180,
+        require  => [User["openerp"], Package['bzr'] ],
+      }
+    }
+    "absent": {
+      file {"${basedire}/${name}":
+        ensure  => absent,
+        force   => true,
+        backup  => false,
+      }
+    }
+    default: {
+      fail "Uknown ensure method: $ensure for openerp::release $name"
+    }
+  }
+}

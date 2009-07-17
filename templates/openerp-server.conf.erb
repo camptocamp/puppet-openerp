@@ -1,0 +1,50 @@
+# configuration file for openerp-server(1)
+
+[options]
+# Enable the debugging mode (default False).
+verbose = <%=openerp_verbose%>
+
+# The file where the server pid will be stored (default False).
+pidfile = <%=openerp_pidfile%>
+
+# The file where the server log will be stored (default False).
+logfile = >%=openerp_logfile%>
+
+# The IP address on which the server will bind.
+# If empty, it will bind on all interfaces (default empty).
+interface = <%=openerp_interface%>
+
+# The TCP port on which the server will listen (default 8069).
+port = <%=openerp_port%>
+net_port = <%=openerp_netport%>
+
+# Enable debug mode (default False).
+debug_mode = <%=openerp_debug_mode%>
+
+# Launch server over https instead of http (default False).
+secure = <%=openerp_secure%>
+
+# Specify the SMTP server for sending email (default localhost).
+smtp_server = <%=openerp_smtp_server%>
+
+# Specify the SMTP user for sending email (default False).
+smtp_user = <%=openerp_smtp_user%>
+
+# Specify the SMTP password for sending email (default False).
+smtp_password = <%=openerp_smtp_password%>
+
+# Specify the database name.
+db_name = <%=openerp_db_name%>
+
+# Specify the database user name (default None).
+db_user = <%=openerp_db_user%>
+
+# Specify the database password for db_user (default None).
+db_password = <%=openerp_db_password%>
+
+# Specify the database host (default localhost).
+db_host = <%=openerp_db_host%>
+
+# Specify the database port (default None).
+db_port = <%=openerp_db_port%>
+

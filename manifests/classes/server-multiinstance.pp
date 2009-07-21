@@ -21,6 +21,15 @@ class openerp::server::multiinstance inherits openerp::server::base {
     require => File["/etc/init.d/openerp-multi-instances"],
   }
 
+  file {"/srv/openerp/openerp-admin.py":
+    ensure  => present,
+    source  => 'puppet:///openerp/srv/openerp/openerp-admin.py',
+    owner   => 'openerp',
+    group   => 'openerp',
+    mode    => 0755,
+    require => User['openerp']
+  }
+
 #  case $lsbdistcodename {
 #    "lenny": { include openerp::server::multiinstance::lenny }
 #    "hardy": { include openerp::server::multiinstance::hardy }

@@ -44,7 +44,8 @@ class openerp::client::sources::web inherits openerp::client::base {
   service {"openerp-web":
     ensure  => running,
     enable  => true,
-    require => File["/etc/openerp-web.cfg","/etc/init.d/openerp-web"],
+    pattern => "openerp-web.cfg",
+    require => [ File["/etc/openerp-web.cfg"], Exec["install openerp-web"] ],
   }
 
 }

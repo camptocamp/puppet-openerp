@@ -160,11 +160,22 @@ def startInstance(name):
     cmdDaemon = "/sbin/start-stop-daemon --start --pidfile %s --background --make-pidfile --exec %s  -- %s"
     cmdDaemonRoot = "/sbin/start-stop-daemon --start --pidfile %s --chuid openerp --background --make-pidfile --exec %s  -- %s"
 
-    openerpArgs = "%(options)s --port=%(port)s --db_host=%(db_host)s " 
-    openerpArgs += " --logfile=%(logfile)s " 
-    openerpArgs += "--db_user=%(db_user)s --db_password=%(db_password)s "
-    openerpArgs += "--db_port=%(db_port)s --net_port=%(net_port)s --smtp=%(smtp)s"
-    
+    openerpArgs = "%(options)s --port=%(port)s "
+
+    if cfg['db_host']:
+        openerpArgs += "--db_host=%(db_host)s "
+
+    if cfg['db_password']:
+        openerpArgs += "--db_password=%(db_password)s "
+
+    if cfg['db_port']:
+        openerpArgs += "--db_port=%(db_port)s "
+
+    openerpArgs += "--logfile=%(logfile)s "
+    openerpArgs += "--db_user=%(db_user)s "
+    openerpArgs += "--net_port=%(net_port)s --smtp=%(smtp)s"
+
+
     if os.getuid() == 0 :
         print '--------------------UID 0----------------------'
         print cmdDaemonRoot %(getPidFilePath(name), getServerScript(name), openerpArgs % cfg)

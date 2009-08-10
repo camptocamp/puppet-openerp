@@ -26,6 +26,7 @@ def execCmd(cmd, msg):
     status, output = getstatusoutput(cmd)
     if status:
         print "%s failed !" % msg
+        print output
         sys.exit(1)
     return output
 
@@ -192,6 +193,10 @@ def stopInstance(name):
     execCmd("/sbin/start-stop-daemon -q --stop --pidfile %s --oknodo" % getPidFilePath(name), "stop instance")
     if os.path.exists(getPidFilePath(name)):
         os.remove(getPidFilePath(name))
+    # have to check if there's another fork... strange behaviour we detected.
+    output = execCmd('''ps fax | awk '$6 ~ /%s.+openerp/ {print $1}' ''' % name, 'get pid')
+    if output:
+      execCmd('kill -6 %s'%output, 'really kill %s'%name)
 
 def listInstance():
     print " ", 
@@ -207,16 +212,9 @@ def listInstance():
     for instance in instances:
         name = os.path.basename(instance)
 
-        pid = execCmd("pgrep -f %s" % instance, "get pid")
-        if "\n" in pid:
-            pid = int(pid.split('\n')[0])
-        else: pid = 0
-     
-        pidfile = -1
-        if os.path.isfile(getPidFilePath(name)):
-            pidfile = int(open(getPidFilePath(name)).read())
+        pid = execCmd('''ps fax | awk '$6 ~ /%s.+openerp/ {print $1}' ''' % name, 'get pid')
 
-        if pid == pidfile:
+        if pid :
             print " ", 
             print name.ljust(12), 
             print str(pid).ljust(12), 

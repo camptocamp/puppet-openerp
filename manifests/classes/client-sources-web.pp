@@ -1,6 +1,5 @@
 class openerp::client::sources::web inherits openerp::client::base {
 
-
   openerp::sources {"web-client":
     ensure      => present,
     url         => "http://bazaar.launchpad.net/%7Eopenerp/openobject-client-web/trunk/",

@@ -17,6 +17,7 @@ DAEMON=/srv/openerp/server/bin/openerp-server.py
 CONFIG=/srv/openerp/openerp-server.conf
 NAME=openerp-server
 DESC=openerp-server
+USR=openerp
 
 test -x ${DAEMON} || exit 0
 
@@ -27,7 +28,7 @@ case "${1}" in
                 echo -n "Starting ${DESC}: "
 
                 start-stop-daemon --start --quiet --pidfile /var/run/${NAME}.pid \
-                        --chuid ${USER} --background --make-pidfile \
+                        --chuid ${USR} --background --make-pidfile \
                         --exec ${DAEMON} -- --config=${CONFIG}
 
                 echo "${NAME}."
@@ -51,7 +52,7 @@ case "${1}" in
                 sleep 1
 
                 start-stop-daemon --start --quiet --pidfile /var/run/${NAME}.pid \
-                        --chuid ${USER} --background --make-pidfile \
+                        --chuid ${USR} --background --make-pidfile \
                         --exec ${DAEMON} -- --config=${CONFIG}
 
                 echo "${NAME}."

@@ -28,7 +28,7 @@ class openerp::server::sources inherits openerp::server::base {
   # init file and first config file
   file {"/etc/init.d/openerp-server":
     ensure   => present,
-    source   => "puppet:///openerp/etc/init.d/openerp-server",
+    content  => template("openerp/openerp-server.erb"),
     owner    => "root",
     group    => "root",
     mode     => "0755",
@@ -50,10 +50,17 @@ class openerp::server::sources inherits openerp::server::base {
     unless  => "test -e /etc/rc2.d/S99openerp-server",
   }
 
+  file {"/var/run/openerp/":
+    ensure => directory,
+    owner  => "$openerp_source_owner",
+    group  => "$openerp_source_group",
+    mode   => 0755
+  }
+
   service {"openerp-server":
     ensure  => running,
     pattern => "openerp-server.py",
-    require => File["/srv/openerp/openerp-server.conf"]
+    require => [ File["/srv/openerp/openerp-server.conf"], File["/var/run/openerp/"] ]
   }
 
 }

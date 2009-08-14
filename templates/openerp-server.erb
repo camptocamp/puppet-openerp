@@ -18,6 +18,7 @@ CONFIG=/srv/openerp/openerp-server.conf
 NAME=openerp-server
 DESC=openerp-server
 USR=openerp
+PIDFILE=<%=openerp_pidfile%>
 
 test -x ${DAEMON} || exit 0
 
@@ -27,8 +28,8 @@ case "${1}" in
         start)
                 echo -n "Starting ${DESC}: "
 
-                start-stop-daemon --start --quiet --pidfile /var/run/${NAME}.pid \
-                        --chuid ${USR} --background --make-pidfile \
+                start-stop-daemon --start --quiet --pidfile $PIDFILE \
+                        --chuid ${USR} --background \
                         --exec ${DAEMON} -- --config=${CONFIG}
 
                 echo "${NAME}."
@@ -37,7 +38,7 @@ case "${1}" in
         stop)
                 echo -n "Stopping ${DESC}: "
 
-                start-stop-daemon --stop --quiet --pidfile /var/run/${NAME}.pid \
+                start-stop-daemon --stop --quiet --pidfile $PIDFILE \
                         --oknodo
 
                 echo "${NAME}."
@@ -46,13 +47,13 @@ case "${1}" in
         restart|force-reload)
                 echo -n "Restarting ${DESC}: "
 
-                start-stop-daemon --stop --quiet --pidfile /var/run/${NAME}.pid \
+                start-stop-daemon --stop --quiet --pidfile $PIDFILE \
                         --oknodo
 
                 sleep 1
 
-                start-stop-daemon --start --quiet --pidfile /var/run/${NAME}.pid \
-                        --chuid ${USR} --background --make-pidfile \
+                start-stop-daemon --start --quiet --pidfile /var/run/$PIDFILE \
+                        --chuid ${USR} --background \
                         --exec ${DAEMON} -- --config=${CONFIG}
 
                 echo "${NAME}."

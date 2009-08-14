@@ -1,0 +1,54 @@
+[global]
+# This is where all of your settings go for your production environment.
+
+# SERVER
+
+server.socket_host="<%=openerp_web_sockhost%>"
+server.socket_port=<%=openerp_web_port%>
+
+server.environment="<%=openerp_web_environment%>"
+# Sets the number of threads the server uses
+server.thread_pool = 10
+
+# Simple code profiling
+server.profile_on = False
+server.profile_dir = "profile"
+
+# if this is part of a larger site, you can set the path
+# to the TurboGears instance here
+#server.webpath = ""
+
+# logging
+#log.access_file = "/var/log/openerp-web/access.log"
+#log.error_file = "/var/log/openerp-web/error.log"
+
+# OpenERP Server
+[openerp]
+host = "0.0.0.0"
+port = "<%=openerp_port%>"
+protocol = '<%=openerp_web_protocol%>'
+
+# Web client settings
+[openerp-web]
+# filter dblists based on url pattern?
+# NONE: No Filter
+# EXACT: Exact Hostname
+# UNDERSCORE: Hostname_
+# BOTH: Exact Hostname or Hostname_
+
+dblist.filter = 'NONE'
+
+# whether to show Databases button on Login screen or not
+dbbutton.visible = True
+
+# will be applied on company logo
+company.url = ''
+
+# options to limit data rows in M2M/O2M lists, will be overriden 
+# with limit="5", min_rows="5" attributes in the tree view definitions
+child.listgrid.limit = 5
+child.listgrid.min_rows = 5
+
+# openerp web clients wants this
+autoreload.package = ""
+

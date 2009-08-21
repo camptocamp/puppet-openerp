@@ -17,6 +17,7 @@ class openerp::server::base inherits openerp::base {
               "python-turbogears",
               "python-cheetah",
               "python-lxml",
+              "python-serial",
               "php5",
               "php5-mysql",
               "libapache2-mod-php5",

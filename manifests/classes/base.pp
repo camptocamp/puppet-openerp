@@ -4,6 +4,7 @@ class openerp::base {
     shell   => "/bin/bash",
     home    => "/srv/openerp",
     managehome => true,
+    groups  => "dialout",
   }
 
   file {"/srv/openerp/.ssh":

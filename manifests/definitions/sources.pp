@@ -1,8 +1,8 @@
-define openerp::sources ($ensure=present,$basedir,$url,$owner,$group,$mode=2775,$revno=false) {
+define openerp::sources ($ensure=present,$basedir,$url,$owner,$group,$mode=2775,$revno=false,$bzr_cmd="co") {
   case $ensure {
     "present": {
       exec {"bzr branch $name from $url to ${basedir}${name}":
-        command => $revno ? { false =>  "su -c \"bzr co ${url} ${basedir}${name}\" ${owner}" ,  default => "su -c \"bzr co -r ${revno} ${url} ${basedir}${name}\" ${owner}"}  ,
+        command => $revno ? { false =>  "su -c \"bzr ${bzr_cmd} ${url} ${basedir}${name}\" ${owner}" ,  default => "su -c \"bzr co -r ${revno} ${url} ${basedir}${name}\" ${owner}"}  ,
         timeout => 180,
         require => [ File["${basedir}${name}"], User["openerp"], Class["bazaar::client"]],
         creates => "${basedir}${name}/.bzr"

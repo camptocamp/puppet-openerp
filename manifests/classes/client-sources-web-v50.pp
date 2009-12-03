@@ -5,7 +5,7 @@ class openerp::client::sources::web::v50 inherits openerp::client::base {
 
   openerp::sources {"web-client":
     ensure      => present,
-    url         => "http://bazaar.launchpad.net/%7Eopenerp/openobject-client-web/5.0/",
+    url         => "http://bazaar.launchpad.net/~openerp/openobject-client-web/5.0/",
     basedir     => "/srv/openerp/",
     owner       => "$openerp_source_owner",
     group       => "$openerp_source_group",

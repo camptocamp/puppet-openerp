@@ -4,7 +4,8 @@ class openerp::base {
     shell   => "/bin/bash",
     home    => "/srv/openerp",
     managehome => true,
-    groups  => "dialout",
+    groups  => ["dialout","postgres"],
+    require => Package["postgresql"]
   }
 
   file {"/srv/openerp/.ssh":

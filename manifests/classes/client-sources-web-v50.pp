@@ -12,18 +12,14 @@ class openerp::client::sources::web::v50 inherits openerp::client::base {
   }
 
   exec {"upgrade setuptools":
-    command  => "easy_install -U setuptools"
+    command  => "easy_install -U setuptools",
+    unless   => "ls /usr/lib*/python2.5/site-packages/ | grep -q setuptool",
   }
 
   exec {"install extremes":
     command => "easy_install extremes",
-    require => Exec ["upgrade setuptools"]
-  }
-
-  exec {"install pyprotocols":
-    command => "easy_install http://dbsprockets.googlecode.com/files/PyProtocols-1.0a0dev-r2302.zip",
-    unless  => "grep --quiet PyProtocols-1.0a0dev_r2302-py2.5-linux-i686.egg /usr/lib/python2.5/site-packages/easy-install.pth",
-    require => Exec ["upgrade setuptools"]
+    require => Exec ["upgrade setuptools"],
+    unless  => "grep -q Extremes-1.1.1-py2.5.egg /usr/lib*/python2.5/site-packages/easy-install.pth"
   }
 
   file {"/etc/openerp-web.cfg":
@@ -38,17 +34,20 @@ class openerp::client::sources::web::v50 inherits openerp::client::base {
   exec {"install openerp-web":
     command  => "cd /srv/openerp/web-client/ && python setup.py install",
     require  => [ Openerp::Sources["web-client"], Exec["upgrade setuptools"], Exec["install pyprotocols"], Exec["install extremes"] ], 
+    notify   => [Exec["openerp-web startup script"], Exec["fix openerp-web startup script"]],
   }
 
   exec {"openerp-web startup script":
     command => "cp /srv/openerp/web-client/scripts/openerp-web /etc/init.d/",
     creates => "/etc/init.d/openerp-web",
     require => Exec["install openerp-web"],
+    refreshonly => true,
   }
 
   exec {"fix openerp-web startup script":
     command  => "sed -i 's/USER=\"terp\"/USER=\"openerp\"/g' /etc/init.d/openerp-web",
     require  => Exec["openerp-web startup script"],
+    refreshonly => true,
   }
 
   exec {"add web-client to startup":

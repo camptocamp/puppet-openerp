@@ -33,7 +33,7 @@ class openerp::client::sources::web::v50 inherits openerp::client::base {
 
   exec {"install openerp-web":
     command  => "cd /srv/openerp/web-client/ && python setup.py install",
-    require  => [ Openerp::Sources["web-client"], Exec["upgrade setuptools"], Exec["install pyprotocols"], Exec["install extremes"] ], 
+    require  => [ Openerp::Sources["web-client"], Exec["upgrade setuptools"], Exec["install extremes"] ], 
     notify   => [Exec["openerp-web startup script"], Exec["fix openerp-web startup script"]],
   }
 

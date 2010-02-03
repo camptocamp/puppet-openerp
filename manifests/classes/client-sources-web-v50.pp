@@ -13,7 +13,7 @@ class openerp::client::sources::web::v50 inherits openerp::client::base {
 
   exec {"upgrade setuptools":
     command  => "easy_install -U setuptools",
-    unless   => "ls /usr/lib*/python2.5/site-packages/ | grep -q setuptool",
+    unless  => "grep -q setuptools-0.6c11-py2.5.egg /usr/lib*/python2.5/site-packages/easy-install.pth"
   }
 
   exec {"install extremes":

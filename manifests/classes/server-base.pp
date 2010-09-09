@@ -25,7 +25,8 @@ class openerp::server::base inherits openerp::base {
               "gs-aladdin",
               "graphviz",
               "python-ldap",
-              "python-numeric"]:
+              "python-numeric",
+              "python-excelerator"]:
 
     ensure => installed,
   }

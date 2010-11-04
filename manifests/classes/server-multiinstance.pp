@@ -27,6 +27,7 @@ class openerp::server::multiinstance inherits openerp::server::base {
     owner   => 'openerp',
     group   => 'openerp',
     mode    => 0755,
+    replace => false,
     require => User['openerp']
   }
 

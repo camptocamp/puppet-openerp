@@ -1,7 +1,25 @@
 class openerp::server::base inherits openerp::base {
 
-  package { [ "python2.4", 
-              "python-xml",
+  case $lsbdistcodename {
+    squeeze: {
+      package {[
+        "python2.6",
+        ]:
+      }
+    }
+    lenny: { 
+      package {[
+        "python-xml",
+        "python-2.4",
+        "gs",
+        "gs-aladdin",
+        "python-numeric",
+        ]:
+      }
+    }
+  }
+
+  package { [ 
               "python-libxml2", 
               "python-libxslt1", 
               "python-numpy", 
@@ -20,18 +38,14 @@ class openerp::server::base inherits openerp::base {
               "php5-mysql",
               "libapache2-mod-php5",
               "python-tz",
-              "gs",
-              "aladin",
-              "gs-aladdin",
               "graphviz",
               "python-ldap",
-              "python-numeric",
               "python-excelerator"]:
 
     ensure => installed,
   }
 
-  if !defined(Package["python-psycopg"]) {
+  if (!defined(Package["python-psycopg"]) and $lsbdisctodename == lenny) {
     package {"python-psycopg": ;}
   }
   if !defined(Package["python-psycopg2"]) {

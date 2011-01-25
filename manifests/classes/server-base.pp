@@ -1,5 +1,4 @@
 class openerp::server::base inherits openerp::base {
-
   case $lsbdistcodename {
     squeeze: {
       package {[
@@ -11,15 +10,15 @@ class openerp::server::base inherits openerp::base {
       package {[
         "python-xml",
         "python-2.4",
-        "gs",
-        "gs-aladdin",
         "python-numeric",
         ]:
       }
     }
   }
 
-  package { [ 
+  package { [
+              "gs",
+              "gs-aladdin", 
               "python-libxml2", 
               "python-libxslt1", 
               "python-numpy", 
@@ -40,16 +39,13 @@ class openerp::server::base inherits openerp::base {
               "python-tz",
               "graphviz",
               "python-ldap",
+              "python-virtualenv",
               "python-excelerator"]:
-
-    ensure => installed,
-  }
-
+  
   if (!defined(Package["python-psycopg"]) and $lsbdisctodename == lenny) {
     package {"python-psycopg": ;}
   }
   if !defined(Package["python-psycopg2"]) {
     package {"python-psycopg2": ; }
   }
-
 }

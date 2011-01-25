@@ -41,6 +41,7 @@ class openerp::server::base inherits openerp::base {
               "python-ldap",
               "python-virtualenv",
               "python-excelerator"]:
+  }
   
   if (!defined(Package["python-psycopg"]) and $lsbdisctodename == lenny) {
     package {"python-psycopg": ;}

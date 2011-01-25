@@ -23,7 +23,10 @@ class openerp::server::multiinstance inherits openerp::server::base {
 
   file {"/srv/openerp/openerp-admin.py":
     ensure  => present,
-    source  => 'puppet:///openerp/srv/openerp/openerp-admin.py',
+    source  => $lsbdistcodename ? {
+      'squeeze' => 'puppet:///openerp/srv/openerp/openerp-admin-squeeze.py',
+      default   => 'puppet:///openerp/srv/openerp/openerp-admin.py',
+    },
     owner   => 'openerp',
     group   => 'openerp',
     mode    => 0755,

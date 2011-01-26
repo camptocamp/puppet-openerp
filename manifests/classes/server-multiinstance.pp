@@ -1,4 +1,21 @@
 class openerp::server::multiinstance inherits openerp::server::base {
+  include bazaar::client
+
+  openerp::sources {"openerp-admin":
+    ensure      => present,
+    url         => $lsbdistcodename ? {
+      'lenny' => "http://bazaar.camptocamp.com/bzr/c2c_tinyerp/server_management_tools/openerp_admin_5/",
+      'squeeze' => "http://bazaar.camptocamp.com/bzr/c2c_tinyerp/server_management_tools/openerp_admin_6/",
+    },
+    basedir     => "/srv/openerp/",
+    owner       => "openerp",
+    group       => "openerp",
+  }
+  file {"/srv/openerp/openerp-admin/openerp-admin.py":
+    mode => 0755,
+    require => Openerp::Sources["openerp-admin"],
+  }
+
   file {"/srv/openerp/instances":
     ensure  => directory,
     mode    => 755,
@@ -20,23 +37,5 @@ class openerp::server::multiinstance inherits openerp::server::base {
     unless  => "test -f /etc/rc2.d/S99openerp-multi-instances",
     require => File["/etc/init.d/openerp-multi-instances"],
   }
-
-  file {"/srv/openerp/openerp-admin.py":
-    ensure  => present,
-    source  => $lsbdistcodename ? {
-      'squeeze' => 'puppet:///openerp/srv/openerp/openerp-admin-squeeze.py',
-      default   => 'puppet:///openerp/srv/openerp/openerp-admin.py',
-    },
-    owner   => 'openerp',
-    group   => 'openerp',
-    mode    => 0755,
-    replace => false,
-    require => User['openerp']
-  }
-
-#  case $lsbdistcodename {
-#    "lenny": { include openerp::server::multiinstance::lenny }
-#    "hardy": { include openerp::server::multiinstance::hardy }
-#  }
 
 }

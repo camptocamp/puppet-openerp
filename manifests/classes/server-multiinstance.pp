@@ -4,7 +4,7 @@ class openerp::server::multiinstance inherits openerp::server::base {
   openerp::sources {"openerp-admin":
     ensure      => present,
     url         => $lsbdistcodename ? {
-      'lenny' => "http://bazaar.camptocamp.com/bzr/c2c_tinyerp/server_management_tools/openerp_admin_5/",
+      'lenny'   => "http://bazaar.camptocamp.com/bzr/c2c_tinyerp/server_management_tools/openerp_admin_5/",
       'squeeze' => "http://bazaar.camptocamp.com/bzr/c2c_tinyerp/server_management_tools/openerp_admin_6/",
     },
     basedir     => "/srv/openerp/",
@@ -12,7 +12,9 @@ class openerp::server::multiinstance inherits openerp::server::base {
     group       => "openerp",
   }
   file {"/srv/openerp/openerp-admin/openerp-admin.py":
-    mode => 0755,
+    mode    => 0755,
+    owner   => "openerp",
+    group   => "openerp",
     require => Openerp::Sources["openerp-admin"],
   }
 

@@ -36,7 +36,10 @@ class openerp::server::multiinstance inherits openerp::server::base {
   
   exec {"install openerp-multi-instances init script":
     command => "update-rc.d openerp-multi-instances defaults 99 12",
-    unless  => "test -f /etc/rc2.d/S99openerp-multi-instances",
+    creates => $lsbdistcodename ? {
+      "lenny" => "/etc/rc2.d/S99openerp-multi-instances",
+      "squeeze" => "/etc/rc2.d/S03openerp-multi-instances",
+    },
     require => File["/etc/init.d/openerp-multi-instances"],
   }
 

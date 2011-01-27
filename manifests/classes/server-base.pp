@@ -9,7 +9,7 @@ class openerp::server::base inherits openerp::base {
     lenny: { 
       package {[
         "python-xml",
-        "python-2.4",
+        "python2.4",
         "python-numeric",
         ]:
       }

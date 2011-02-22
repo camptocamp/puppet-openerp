@@ -1,5 +1,4 @@
 class openerp::server::multiinstance inherits openerp::server::base {
-  include bazaar::client
 
   openerp::sources {"openerp-admin":
     ensure      => present,

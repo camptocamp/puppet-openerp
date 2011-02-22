@@ -4,10 +4,9 @@ define openerp::sources ($ensure=present,$basedir,$url,$owner,$group,$mode=2775,
       exec {"bzr branch $name from $url to ${basedir}${name}":
         command => $revno ? { false =>  "su -c \"bzr ${bzr_cmd} ${url} ${basedir}${name}\" ${owner}" ,  default => "su -c \"bzr co -r ${revno} ${url} ${basedir}${name}\" ${owner}"},
         timeout => 180,
-        require => [ File["${basedir}${name}"], User["openerp"], Class["bazaar::client"]],
+        require => [ File["${basedir}${name}"], User["openerp"]],
         creates => "${basedir}${name}/.bzr"
       }
-      include bazaar::client
       file {"${basedir}${name}":
         ensure => directory,
         mode   => $mode,

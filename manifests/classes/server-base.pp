@@ -11,6 +11,7 @@ class openerp::server::base inherits openerp::base {
         "python-xml",
         "python2.4",
         "python-numeric",
+        "gs-aladdin", 
         ]:
       }
     }
@@ -18,7 +19,6 @@ class openerp::server::base inherits openerp::base {
 
   package { [
               "gs",
-              "gs-aladdin", 
               "python-libxml2", 
               "python-libxslt1", 
               "python-numpy", 

@@ -35,7 +35,6 @@ class openerp::server::base inherits openerp::base {
               "python-serial",
               "php5",
               "php5-mysql",
-              "libapache2-mod-php5",
               "python-tz",
               "graphviz",
               "python-ldap",

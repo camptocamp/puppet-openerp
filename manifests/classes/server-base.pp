@@ -16,14 +16,21 @@ class openerp::server::base inherits openerp::base {
       }
     }
   }
-
+  if !defined(Package["python-imaging"]) {
+    package{"python-imaging": ensure => installed;}
+  }
+  if !defined(Package["php5-mysql"]) {
+    package{"php5-mysql": ensure => installed;}
+  }
+  if !defined(Package["python-virtualenv"]) {
+    package{"python-virtualenv": ensure => installed;}
+  }
   package { [
               "gs",
               "python-libxml2", 
               "python-libxslt1", 
               "python-numpy", 
               "python-reportlab",
-              "python-imaging",
               "python-pydot",
               "python-pyparsing",
               "python-matplotlib",
@@ -34,11 +41,9 @@ class openerp::server::base inherits openerp::base {
               "python-lxml",
               "python-serial",
               "php5",
-              "php5-mysql",
               "python-tz",
               "graphviz",
               "python-ldap",
-              "python-virtualenv",
               "python-excelerator"]:
   }
   

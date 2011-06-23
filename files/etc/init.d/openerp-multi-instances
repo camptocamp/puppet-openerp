@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-OPENERP_ADMIN=/srv/openerp/openerp-admin.py
+OPENERP_ADMIN=/srv/openerp/openerp-admin/openerp-admin.py
 
 if [ -f "$OPENERP_ADMIN" ]
    then 
@@ -17,7 +17,7 @@ case "$1" in
     for i in $($OPENERP_ADMIN --list |awk 'FNR>1' |awk '{ print $1 ":" $4 }'); do
       name=$(echo $i |cut -d ':' -f1)
       startonboot=$(echo $i |cut -d ':' -f2)
-      if [ $startonboot == "1" ]; then
+      if [ $startonboot = "1" ]; then
         $OPENERP_ADMIN --start $name
       fi
     done

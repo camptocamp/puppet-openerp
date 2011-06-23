@@ -1,4 +1,24 @@
 class openerp::server::multiinstance inherits openerp::server::base {
+
+  openerp::sources {"openerp-admin":
+    ensure      => "present",
+    url         => $lsbdistcodename ? {
+      'lenny'   => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_5/",
+      'squeeze' => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_6/",
+      default   => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_6/",
+    },
+    basedir     => "/srv/openerp/",
+    owner       => "openerp",
+    group       => "openerp",
+  }
+
+  file {"/srv/openerp/openerp-admin/openerp-admin.py":
+    mode    => 0755,
+    owner   => "openerp",
+    group   => "openerp",
+    require => Openerp::Sources["openerp-admin"],
+  }
+
   file {"/srv/openerp/instances":
     ensure  => directory,
     mode    => 755,
@@ -17,22 +37,12 @@ class openerp::server::multiinstance inherits openerp::server::base {
   
   exec {"install openerp-multi-instances init script":
     command => "update-rc.d openerp-multi-instances defaults 99 12",
-    unless  => "test -f /etc/rc2.d/S99openerp-multi-instances",
+    creates => $lsbdistcodename ? {
+      "lenny" => "/etc/rc2.d/S99openerp-multi-instances",
+      "squeeze" => "/etc/rc2.d/S03openerp-multi-instances",
+      default => "/etc/rc2.d/S03openerp-multi-instances",
+    },
     require => File["/etc/init.d/openerp-multi-instances"],
   }
-
-  file {"/srv/openerp/openerp-admin.py":
-    ensure  => present,
-    source  => 'puppet:///openerp/srv/openerp/openerp-admin.py',
-    owner   => 'openerp',
-    group   => 'openerp',
-    mode    => 0755,
-    require => User['openerp']
-  }
-
-#  case $lsbdistcodename {
-#    "lenny": { include openerp::server::multiinstance::lenny }
-#    "hardy": { include openerp::server::multiinstance::hardy }
-#  }
 
 }

@@ -1,12 +1,19 @@
 class openerp::server::multiinstance inherits openerp::server::base {
 
+  if $openerp_version == "" {
+    $openerp_admin_version = $lsbdistcodename ? {
+      'lenny'   => "5",
+      'squeeze' => "6",
+      default   => "6",
+    }
+  }
+  else {
+    $openerp_admin_version = $openerp_version
+  }
+
   openerp::sources {"openerp-admin":
     ensure      => "present",
-    url         => $lsbdistcodename ? {
-      'lenny'   => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_5/",
-      'squeeze' => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_6/",
-      default   => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_6/",
-    },
+    url         => "http://bazaar.camptocamp.net/bzr/c2c_tinyerp/server_management_tools/openerp_admin_${openerp_admin_version}/",
     basedir     => "/srv/openerp/",
     owner       => "openerp",
     group       => "openerp",

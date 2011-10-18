@@ -13,35 +13,48 @@
 
 BASE="/srv/openerp/instances"
 
-openerp() {
-
+check() {
   instances=$(ls ${BASE} | wc -l)
   if [ $instances -eq 0 ]; then
-    echo 'No instance seems to be installed'
+    echo '  No instance seems to be installed'
     exit 1
   fi
+}
 
-  if [ -n $2 ]; then
+openerp() {
+  
+  p=''
+  if [ -z $2 ]; then
+    for instances in $(ls ${BASE}/); do
+      if [ -d ${BASE}/${instances}/auto-run ]; then
+        p="$p $(find ${BASE}/${instances}/auto-run -type l)"
+      else
+        echo "  ${instances} present, but NO auto-run directory"
+      fi
+    done
+  else
     if [ ! -d "${BASE}/$2" ]; then
-      echo "Unable to find auto-run for $2"
-      log_end_msg 1
+      echo "  No such instance: $2"
       exit 1
     fi
-    p=$(ls ${BASE}/$2/auto-run/)
-  else 
-    p=$(ls ${BASE}/*/auto-run/ 2>/dev/null || echo 'none')
+    p=$(find ${BASE}/$2/auto-run/ -type l)
   fi
+  
   for srv in $p; do
-    if [ -f $srv ]; then
-      $srv $1;
+    if [ -L $srv ]; then
+      $srv $1 || echo "ERROR: unable to start $srv";
     else
-      echo "$srv seems to be broken"
+      echo "  $srv seems to be broken"
+      exit 1
     fi
   done
-} 
+}
 
-case $1 in 
+check
+
+case $1 in
   start|stop)
+  log_action_msg "$(basename $0) called to $1 OpenERP"
   openerp $1 $2
   ;;
   *)

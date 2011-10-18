@@ -57,8 +57,14 @@ case $1 in
   log_action_msg "$(basename $0) called to $1 OpenERP"
   openerp $1 $2
   ;;
+  restart)
+  log_action_msg "$(basename $0) called to $1 OpenERP"
+  openerp stop $2
+  sleep 2
+  openerp start $2
+  ;;
   *)
-  echo "$0 start|stop"
+  echo "$0 start|stop|restart"
   exit 1
   ;;
 esac

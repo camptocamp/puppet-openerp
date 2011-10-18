@@ -42,7 +42,7 @@ openerp() {
   
   for srv in $p; do
     if [ -L $srv ]; then
-      $srv $1 || echo "ERROR: unable to start $srv";
+      su -c "$srv $1" openerp || echo "ERROR: unable to start $srv";
     else
       echo "  $srv seems to be broken"
       exit 1

@@ -1,0 +1,71 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides: openerp
+# Required-Start: $local_fs $remote_fs $network $syslog $postgresql
+# Required-Stop: $local_fs $remote_fs $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# X-Interactive: false
+# Short-Description: Start/stop OpenERP server and WebClient
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+BASE="/srv/openerp/instances"
+
+check() {
+  instances=$(ls ${BASE} | wc -l)
+  if [ $instances -eq 0 ]; then
+    echo '  No instance seems to be installed'
+    exit 1
+  fi
+}
+
+openerp() {
+  
+  p=''
+  if [ -z $2 ]; then
+    for instances in $(ls ${BASE}/); do
+      if [ -d ${BASE}/${instances}/auto-run ]; then
+        p="$p $(find ${BASE}/${instances}/auto-run -type l)"
+      else
+        echo "  ${instances} present, but NO auto-run directory"
+      fi
+    done
+  else
+    if [ ! -d "${BASE}/$2" ]; then
+      echo "  No such instance: $2"
+      exit 1
+    fi
+    p=$(find ${BASE}/$2/auto-run/ -type l)
+  fi
+  
+  for srv in $p; do
+    if [ -L $srv ]; then
+      su -c "$srv $1" openerp || echo "ERROR: unable to start $srv";
+    else
+      echo "  $srv seems to be broken"
+      exit 1
+    fi
+  done
+}
+
+check
+
+case $1 in
+  start|stop)
+  log_action_msg "$(basename $0) called to $1 OpenERP"
+  openerp $1 $2
+  ;;
+  restart)
+  log_action_msg "$(basename $0) called to $1 OpenERP"
+  openerp stop $2
+  sleep 2
+  openerp start $2
+  ;;
+  *)
+  echo "$0 start|stop|restart"
+  exit 1
+  ;;
+esac
+exit 0

@@ -26,7 +26,7 @@ class openerp::server::base inherits openerp::base {
     package{"python-virtualenv": ensure => installed;}
   }
   package { [
-              "gs",
+              "ghostscript",
               "python-libxml2", 
               "python-libxslt1", 
               "python-numpy", 

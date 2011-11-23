@@ -35,8 +35,8 @@ class openerp::server::multiinstance inherits openerp::server::base {
   }
 
   $initscript = $openerp_init ? {
-    '6' => 'puppet:///openerp/etc/init.d/openerp-multi-instances-6',
-    default => 'puppet:///openerp/etc/init.d/openerp-multi-instances',
+    '6' => 'puppet:///modules/openerp/etc/init.d/openerp-multi-instances-6',
+    default => 'puppet:///modules/openerp/etc/init.d/openerp-multi-instances',
   }
 
   file {"/etc/init.d/openerp-multi-instances":

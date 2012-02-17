@@ -40,7 +40,6 @@ class openerp::server::base inherits openerp::base {
               "python-cheetah",
               "python-lxml",
               "python-serial",
-              "php5",
               "python-tz",
               "graphviz",
               "python-ldap",

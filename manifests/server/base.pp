@@ -19,9 +19,6 @@ class openerp::server::base inherits openerp::base {
   if !defined(Package["python-imaging"]) {
     package{"python-imaging": ensure => installed;}
   }
-  if !defined(Package["php5-mysql"]) {
-    package{"php5-mysql": ensure => installed;}
-  }
   if !defined(Package["python-virtualenv"]) {
     package{"python-virtualenv": ensure => installed;}
   }

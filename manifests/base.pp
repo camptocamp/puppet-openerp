@@ -1,23 +1,19 @@
-class openerp::base {
-  $groups = $openerp_user_groups? {
-    '' => ["dialout","postgres","adm"],
-    default => $openerp_user_groups,
-  }
+class openerp::base($groups=['dialout','postgres','adm'] {
 
-  user {"openerp":
-    ensure  => present,
-    shell   => "/bin/bash",
-    home    => "/srv/openerp",
+  user {'openerp':
+    ensure     => present,
+    shell      => '/bin/bash',
+    home       => '/srv/openerp',
     managehome => true,
-    groups  => $groups,
-    require => Package["postgresql"]
+    groups     => $groups,
+    require    => Package['postgresql']
   }
 
-  file {"/srv/openerp/.ssh":
+  file {'/srv/openerp/.ssh':
     ensure => directory,
-    owner  => openerp,
-    group  => openerp,
-    mode   => 0755,
+    owner  => 'openerp',
+    group  => 'openerp',
+    mode   => '0755',
     require=> User['openerp'],
   }
 }

@@ -13,7 +13,7 @@ class openerp::server::multiinstance inherits openerp::server::base {
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
-    source => 'puppet:///modules/openerp/etc/init.d/openerp-multi-instances-6',
+    source => 'puppet:///modules/openerp/etc/init.d/openerp-multi-instances',
   }
 
   $init_check = $::lsbdistcodename ? {

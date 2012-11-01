@@ -1,4 +1,6 @@
-class openerp::server::multiinstance inherits openerp::server::base {
+class openerp::server {
+  include openerp::base
+  include openerp::server::packages
 
   file {'/srv/openerp/instances':
     ensure  => directory,

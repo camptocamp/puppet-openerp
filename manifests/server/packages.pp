@@ -1,4 +1,4 @@
-class openerp::server::base inherits openerp::base {
+class openerp::server::packages {
 
   package { [
     'ghostscript',

@@ -19,13 +19,13 @@ for OpenERP server, but will not install it.
 What does this module
 ---------------------
 - create an "openerp" user (as in `openerp::base`_)
-  - home directory: /srv/openerp
-  - shell: /bin/bash
-  - groups: dialout, postgres, adm (you may override this list - see examples)
+    - home directory: /srv/openerp
+    - shell: /bin/bash
+    - groups: dialout, postgres, adm (you may override this list - see examples)
 - create a /srv/openerp/instances directory (as in `openerp::server::multiinstance`_)
 - install a special init-script (as in openerp::server::multiinstance)
-  - file located in `files/etc/init.d/openerp-multi-instances-6`_
-  - command used : update-rc.d openerp-multi-instances defaults 99 12
+    - file located in `files/etc/init.d/openerp-multi-instances-6`_
+    - command used : update-rc.d openerp-multi-instances defaults 99 12
 - install required python libraries (as in `openerp::server::base`_)
 .. _`openerp::base`: blob/master/manifests/base.pp
 .. _`openerp::server::multiinstance`: blob/master/manifests/server/multiinstance.pp

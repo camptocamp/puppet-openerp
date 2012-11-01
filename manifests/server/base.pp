@@ -1,52 +1,52 @@
 class openerp::server::base inherits openerp::base {
-  case $lsbdistcodename {
+  case $::lsbdistcodename {
     squeeze: {
       package {[
-        "python2.6",
-        ]:
+        'python2.6',
+      ]:
       }
     }
     lenny: { 
-      package {[
-        "python-xml",
-        "python2.4",
-        "python-numeric",
-        "gs-aladdin", 
-        ]:
-      }
+    package {[
+      'python-xml',
+      'python2.4',
+      'python-numeric',
+      'gs-aladdin', 
+    ]:
+    }
     }
   }
-  if !defined(Package["python-imaging"]) {
-    package{"python-imaging": ensure => installed;}
+  if !defined(Package['python-imaging']) {
+    package{'python-imaging': ensure => installed;}
   }
-  if !defined(Package["python-virtualenv"]) {
-    package{"python-virtualenv": ensure => installed;}
+  if !defined(Package['python-virtualenv']) {
+    package{'python-virtualenv': ensure => installed;}
   }
   package { [
-              "ghostscript",
-              "python-libxml2", 
-              "python-libxslt1", 
-              "python-numpy", 
-              "python-reportlab",
-              "python-pydot",
-              "python-pyparsing",
-              "python-matplotlib",
-              "python-pychart",
-              "python-profiler",
-              "python-turbogears",
-              "python-cheetah",
-              "python-lxml",
-              "python-serial",
-              "python-tz",
-              "graphviz",
-              "python-ldap",
-              "python-excelerator"]:
+    'ghostscript',
+    'python-libxml2', 
+    'python-libxslt1', 
+    'python-numpy', 
+    'python-reportlab',
+    'python-pydot',
+    'python-pyparsing',
+    'python-matplotlib',
+    'python-pychart',
+    'python-profiler',
+    'python-turbogears',
+    'python-cheetah',
+    'python-lxml',
+    'python-serial',
+    'python-tz',
+    'graphviz',
+    'python-ldap',
+    'python-excelerator']:
   }
-  
-  if (!defined(Package["python-psycopg"]) and $lsbdisctodename == lenny) {
-    package {"python-psycopg": ;}
+
+  if (!defined(Package['python-psycopg']) and $::lsbdisctodename == lenny) {
+    package {'python-psycopg': ;}
   }
-  if !defined(Package["python-psycopg2"]) {
-    package {"python-psycopg2": ; }
+  if !defined(Package['python-psycopg2']) {
+    package {'python-psycopg2': ; }
   }
 }

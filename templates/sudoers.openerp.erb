@@ -1,15 +1,7 @@
 
 ## This part comes from modules/openerp/manifests/classes/openerp-administration.pp
-<% if has_variable?("sudo_openerp_admin_user") -%>
-User_Alias OPENERP_ADMIN = %openerp-admin,<%= sudo_openerp_admin_user %>
-<% else -%>
-User_Alias OPENERP_ADMIN = %openerp-admin
-<% end -%>
-<% if has_variable?("sudo_openerp_admin_cmnd") -%>
-Cmnd_Alias OPENERP_ADMIN = <%= sudo_openerp_admin_cmnd %>
-<% else -%>
-Cmnd_Alias OPENERP_ADMIN = /etc/init.d/openerp*
-<% end -%>
+User_Alias OPENERP_ADMIN = <%= admin %>
+Cmnd_Alias OPENERP_ADMIN = <%= command %>
 OPENERP_ADMIN ALL=(root) OPENERP_ADMIN
 ##
 

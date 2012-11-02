@@ -130,7 +130,7 @@ Manual installation
 - install required python libraries (as in `this page`_)
 
 
-_`Version Française`
+.. _`Version Française` :
 
 ============================
 Plate-forme standard OpenERP

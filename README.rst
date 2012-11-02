@@ -27,31 +27,31 @@ Multi-instance mode explaination
 Instead of a standard installation with, for example, Debian/Ubuntu packages, our installation allows to have many OpenERP_ versions installed
 in parallel. Here's the directory structure of /srv/openerp/instances::
 
-/srv/openerp/instances
-├── instance1
-│   ├── autorun 
-│   ├── bin 
-│   ├── config 
-│   ├── init.d 
-│   ├── log 
-│   ├── run 
-│   └── src 
-├── intance2
-│   ├── autorun 
-│   ├── bin 
-│   ├── config 
-│   ├── init.d 
-│   ├── log 
-│   ├── run 
-│   └── src 
-└── instance3 
-    ├── autorun 
-    ├── bin 
-    ├── config 
-    ├── init.d 
-    ├── log 
-    ├── run 
-    └── src 
+  /srv/openerp/instances
+  ├── instance1
+  │   ├── autorun 
+  │   ├── bin 
+  │   ├── config 
+  │   ├── init.d 
+  │   ├── log 
+  │   ├── run 
+  │   └── src 
+  ├── intance2
+  │   ├── autorun 
+  │   ├── bin 
+  │   ├── config 
+  │   ├── init.d 
+  │   ├── log 
+  │   ├── run 
+  │   └── src 
+  └── instance3 
+      ├── autorun 
+      ├── bin 
+      ├── config 
+      ├── init.d 
+      ├── log 
+      ├── run 
+      └── src 
 
 This structure is deployed by a bluidout_ receipt (not opensourced for now). It installs the wanted OpenERP_ version through bazaar. The init-script_ simply execute
 the startup scripts present in the *autorun* directory. Scripts in autorun directory are symlink to init.d content, this allow to activate or not instances at server startup.

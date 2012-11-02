@@ -1,18 +1,10 @@
-=====================
-OpenERP Puppet module
-=====================
-
-This module is provided to you by Camptocamp_.
-
-.. _Camptocamp: http://www.camptocamp.com/
-
 -------------------------
 Openerp Standard Platform
 -------------------------
 
 In order to install OpenERP platform according to Camptocamp_ best practices, you have two solutions:
-#. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet)
-#. realize the described instruction on your server (if you don't want to use puppet)
+  #. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet)
+  #. realize the described instruction on your server (if you don't want to use puppet)
 
 Regarding the Python libraries, we're using python virtual environments allowing us to have more than one OpenERP_ installation
 on the same server, with partitioned environments.
@@ -52,9 +44,10 @@ in parallel. Here's the directory structure of /srv/openerp/instances::
       ├── log 
       ├── run 
       └── src 
+  …
 
 This structure is deployed by a bluidout_ receipt (not opensourced for now). It installs the wanted OpenERP_ version through bazaar. The init-script_ simply execute
-the startup scripts present in the *autorun* directory. Scripts in autorun directory are symlink to init.d content, this allow to activate or not instances at server startup.
+the startup scripts present in the *autorun* directory. Scripts in *autorun* directory are symlink to *init.d* content. This allow to activate or not instances at server startup.
 
 
 
@@ -65,11 +58,11 @@ Install with Puppet
 If you don't know Puppet but are interested in it, the best is to read the `Puppet documentation`_.
 
 Our standard OpenERP_ platform includes different components, all provided as Puppet modules:
-- puppet-openerp
-- puppet-postgresql_
-- puppet-bazaar_
-- puppet-buildenv_
-- puppet-python_
+  - puppet-openerp
+  - puppet-postgresql_
+  - puppet-bazaar_
+  - puppet-buildenv_
+  - puppet-python_
 
 Based on those modules, here are the element you have to add in your Puppet manifest::
 
@@ -88,41 +81,9 @@ In «Puppet serverless» mode, you just have to download the modules in a direct
 
   puppet apply --modulepath modules --verbose manifest.pp
 
--------------------
-Manual installation
--------------------
-
-- create an "openerp" user (as in `openerp::base`_)
-    - home directory: /srv/openerp
-    - shell: /bin/bash
-    - groups: dialout, postgres, adm (you may override this list - see examples)
-- create a /srv/openerp/instances directory (as in `openerp::server::multiinstance`_)
-    - directory owner: openerp
-    - directory group: openerp
-    - mode: 0755
-- install a special init-script (as in `openerp::server::multiinstance`_)
-    - file located in `files/etc/init.d/openerp-multi-instances`_
-    - command used : update-rc.d openerp-multi-instances defaults 99 12
-- install required python libraries (as in `openerp::server::base`_)
-
-
-.. _`OpenERP`: http://openerp.camptocamp.com/
-.. _`Puppet documentation`: http://docs.puppetlabs.com/learning/
-.. _`init-script`: blob/master/files/etc/init.d/openerp-multi-instances
-.. _`buildout`: http://www.buildout.org/
-.. _`this page`: http://doc.openerp.com/v6.1/install/index.html#installation-link
-.. _`puppet-postgresql`: http://github.com/camptocamp/puppet-postgresql
-.. _`puppet-postgresql`: http://github.com/camptocamp/puppet-bazaar
-.. _`puppet-buildenv`: http://github.com/camptocamp/puppet-buildenv
-.. _`puppet-python`: https://github.com/camptocamp/puppet-python
-.. _`openerp::base`: blob/master/manifests/base.pp
-.. _`openerp::server::multiinstance`: blob/master/manifests/server/multiinstance.pp
-.. _`files/etc/init.d/openerp-multi-instances`: blob/master/files/etc/init.d/openerp-multi-instances
-.. _`openerp::server::base`: blob/master/manifests/server/base.pp
-
--------
+.......
 Example
--------
+.......
 
 Node::
 
@@ -148,3 +109,44 @@ Override openerp groups::
     }
     …
   }
+
+-------------------
+Manual installation
+-------------------
+
+- create an "openerp" user (as in `openerp::base`_)
+    - home directory: /srv/openerp
+    - shell: /bin/bash
+    - groups: dialout, postgres, adm (you may override this list - see examples)
+- create a /srv/openerp/instances directory (as in `openerp::server::multiinstance`_)
+    - directory owner: openerp
+    - directory group: openerp
+    - mode: 0755
+- install a special init-script (as in `openerp::server::multiinstance`_)
+    - file located in `files/etc/init.d/openerp-multi-instances`_
+    - command used : update-rc.d openerp-multi-instances defaults 99 12
+- install required python libraries (as in `this page`_)
+
+
+.. _`OpenERP`: http://openerp.camptocamp.com/
+.. _`Puppet documentation`: http://docs.puppetlabs.com/learning/
+.. _`init-script`: blob/master/files/etc/init.d/openerp-multi-instances
+.. _`buildout`: http://www.buildout.org/
+.. _`this page`: http://doc.openerp.com/v6.1/install/index.html#installation-link
+.. _`puppet-postgresql`: http://github.com/camptocamp/puppet-postgresql
+.. _`puppet-postgresql`: http://github.com/camptocamp/puppet-bazaar
+.. _`puppet-buildenv`: http://github.com/camptocamp/puppet-buildenv
+.. _`puppet-python`: https://github.com/camptocamp/puppet-python
+.. _`openerp::base`: blob/master/manifests/base.pp
+.. _`openerp::server::multiinstance`: blob/master/manifests/server/multiinstance.pp
+.. _`files/etc/init.d/openerp-multi-instances`: blob/master/files/etc/init.d/openerp-multi-instances
+.. _`openerp::server::base`: blob/master/manifests/server/base.pp
+
+
+----
+Note
+----
+This module is provided to you by Camptocamp_.
+
+.. _Camptocamp: http://www.camptocamp.com/
+

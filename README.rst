@@ -1,15 +1,15 @@
--------------------------
-Openerp Standard Platform
--------------------------
+=========================
+OpenERP Standard Platform
+=========================
 
-In order to install OpenERP platform according to Camptocamp_ best practices, you have two solutions:
+In order to install OpenERP_ platform according to Camptocamp_ best practices, you have two solutions:
   #. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet)
   #. realize the described instruction on your server (if you don't want to use puppet)
 
 Regarding the Python libraries, we're using python virtual environments allowing us to have more than one OpenERP_ installation
 on the same server, with partitioned environments.
 
-The best way to know Python libraries depedencies is to go on `this page`_ or to contact our OpenERP_ specialists.
+The best way to know Python libraries depedencies is to go on `this page`_ or to contact our `OpenERP specialists`_.
 
 
 ................................
@@ -128,13 +128,14 @@ Manual installation
 - install required python libraries (as in `this page`_)
 
 
+.. _`OpenERP specialists`: mailto:openerp@camptocamp.com
 .. _`OpenERP`: http://openerp.camptocamp.com/
 .. _`Puppet documentation`: http://docs.puppetlabs.com/learning/
 .. _`init-script`: blob/master/files/etc/init.d/openerp-multi-instances
 .. _`buildout`: http://www.buildout.org/
 .. _`this page`: http://doc.openerp.com/v6.1/install/index.html#installation-link
 .. _`puppet-postgresql`: http://github.com/camptocamp/puppet-postgresql
-.. _`puppet-postgresql`: http://github.com/camptocamp/puppet-bazaar
+.. _`puppet-bazaar`: http://github.com/camptocamp/puppet-bazaar
 .. _`puppet-buildenv`: http://github.com/camptocamp/puppet-buildenv
 .. _`puppet-python`: https://github.com/camptocamp/puppet-python
 .. _`openerp::base`: blob/master/manifests/base.pp

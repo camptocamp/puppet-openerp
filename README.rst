@@ -3,13 +3,13 @@ OpenERP Standard Platform
 =========================
 
 In order to install OpenERP_ platform according to Camptocamp_ best practices, you have two solutions:
-  #. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet)
-  #. realize the described instruction on your server (if you don't want to use puppet)
+  #. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet) → `Install with Puppet`_
+  #. realize the described instruction on your server (if you don't want to use puppet) → `Manual installation`_
 
 Regarding the Python libraries, we're using python virtual environments allowing us to have more than one OpenERP_ installation
 on the same server, with partitioned environments.
 
-The best way to know Python libraries depedencies is to go on `this page`_ or to contact our `OpenERP specialists`_.
+The best way to know Python libraries depedencies is to go on `this page`_ or to contact our OpenERP_ specialists (openerp@camptocamp.com).
 
 
 ................................
@@ -128,7 +128,6 @@ Manual installation
 - install required python libraries (as in `this page`_)
 
 
-.. _`OpenERP specialists`: mailto:openerp@camptocamp.com
 .. _`OpenERP`: http://openerp.camptocamp.com/
 .. _`Puppet documentation`: http://docs.puppetlabs.com/learning/
 .. _`init-script`: blob/master/files/etc/init.d/openerp-multi-instances

@@ -1,5 +1,4 @@
 class openerp::server {
-  include openerp::base
   include openerp::server::packages
 
   file {'/srv/openerp/instances':
@@ -7,7 +6,7 @@ class openerp::server {
     mode    => '0755',
     owner   => 'openerp',
     group   => 'openerp',
-    require => User['openerp']
+    require => Class['openerp::base']
   }
 
   file {'/etc/init.d/openerp-multi-instances':

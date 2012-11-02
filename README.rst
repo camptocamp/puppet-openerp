@@ -6,9 +6,9 @@ This module is provided to you by Camptocamp_.
 
 .. _Camptocamp: http://www.camptocamp.com/
 
-=========================
+-------------------------
 Openerp Standard Platform
-=========================
+-------------------------
 
 In order to install OpenERP platform according to Camptocamp_ best practices, you have two solutions:
 #. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet)
@@ -20,9 +20,9 @@ on the same server, with partitioned environments.
 The best way to know Python libraries depedencies is to go on `this page`_ or to contact our OpenERP_ specialists.
 
 
---------------------------------
+................................
 Multi-instance mode explaination
---------------------------------
+................................
 
 Instead of a standard installation with, for example, Debian/Ubuntu packages, our installation allows to have many OpenERP_ versions installed
 in parallel. Here's the directory structure of /srv/openerp/instances::
@@ -58,9 +58,10 @@ the startup scripts present in the *autorun* directory. Scripts in autorun direc
 
 
 
-===================
+-------------------
 Install with Puppet
-===================
+-------------------
+
 If you don't know Puppet but are interested in it, the best is to read the `Puppet documentation`_.
 
 Our standard OpenERP_ platform includes different components, all provided as Puppet modules:
@@ -87,9 +88,9 @@ In «Puppet serverless» mode, you just have to download the modules in a direct
 
   puppet apply --modulepath modules --verbose manifest.pp
 
-===================
+-------------------
 Manual installation
-===================
+-------------------
 
 - create an "openerp" user (as in `openerp::base`_)
     - home directory: /srv/openerp
@@ -119,6 +120,7 @@ Manual installation
 .. _`files/etc/init.d/openerp-multi-instances`: blob/master/files/etc/init.d/openerp-multi-instances
 .. _`openerp::server::base`: blob/master/manifests/server/base.pp
 
+-------
 Example
 -------
 

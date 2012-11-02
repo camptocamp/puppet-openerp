@@ -1,8 +1,10 @@
+`Version Française`_ 
+
 =========================
 OpenERP Standard Platform
 =========================
 
-In order to install OpenERP_ platform according to Camptocamp_ best practices, you have two solutions:
+In order to install an OpenERP_ platform according to Camptocamp_ best practices, you have two solutions:
   #. either add this module in your Puppetmaster (Master/Agent Puppet) or apply it locally (Serverless Puppet) → `Install with Puppet`_
   #. realize the described instruction on your server (if you don't want to use puppet) → `Manual installation`_
 
@@ -128,11 +130,22 @@ Manual installation
 - install required python libraries (as in `this page`_)
 
 
+_`Version Française`
+
+============================
+Plate-forme standard OpenERP
+============================
+
+
+
+
 .. _`OpenERP`: http://openerp.camptocamp.com/
 .. _`Puppet documentation`: http://docs.puppetlabs.com/learning/
+.. _`documentation Puppet`: http://docs.puppetlabs.com/learning/
 .. _`init-script`: blob/master/files/etc/init.d/openerp-multi-instances
 .. _`buildout`: http://www.buildout.org/
 .. _`this page`: http://doc.openerp.com/v6.1/install/index.html#installation-link
+.. _`cette page`: http://doc.openerp.com/v6.1/install/index.html#installation-link
 .. _`puppet-postgresql`: http://github.com/camptocamp/puppet-postgresql
 .. _`puppet-bazaar`: http://github.com/camptocamp/puppet-bazaar
 .. _`puppet-buildenv`: http://github.com/camptocamp/puppet-buildenv
@@ -143,10 +156,4 @@ Manual installation
 .. _`openerp::server::base`: blob/master/manifests/server/base.pp
 
 
-----
-Note
-----
-This module is provided to you by Camptocamp_.
-
-.. _Camptocamp: http://www.camptocamp.com/
 

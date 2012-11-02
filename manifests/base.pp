@@ -1,4 +1,4 @@
-class openerp::base($groups=['dialout','postgres','adm'] {
+class openerp::base($groups=['dialout','postgres','adm']) {
 
   user {'openerp':
     ensure     => present,

@@ -168,7 +168,7 @@ Copyright (c) 2012 <mailto:puppet@camptocamp.com> All rights reserved.
 -----
 
 ===============================================
-Plate-forme standard OpenERP (version français)
+Plate-forme standard OpenERP (version francais)
 ===============================================
 
 .. contents::

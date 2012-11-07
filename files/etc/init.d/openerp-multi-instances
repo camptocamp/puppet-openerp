@@ -1,44 +1,71 @@
-#!/bin/sh -e
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides: openerp
+# Required-Start: $local_fs $remote_fs $network $syslog $postgresql
+# Required-Stop: $local_fs $remote_fs $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# X-Interactive: false
+# Short-Description: Start/stop OpenERP server and WebClient
+### END INIT INFO
 
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
-OPENERP_ADMIN=/srv/openerp/openerp-admin/openerp-admin.py
+. /lib/lsb/init-functions
 
-if [ -f "$OPENERP_ADMIN" ]
-   then 
-       echo 'openerp-admin.py found'
-   else 
-       echo "$(hostname -f) : error openerp-admin.py is missing on server" | mail -s "openerp problem" tinyerp@camptocamp.com
-       exit 2
-fi 
-echo $1
-case "$1" in
-  start)
-    echo -n "Starting OpenERP multi instances: "
-    for i in $($OPENERP_ADMIN --list |awk 'FNR>1' |awk '{ print $1 ":" $4 }'); do
-      name=$(echo $i |cut -d ':' -f1)
-      startonboot=$(echo $i |cut -d ':' -f2)
-      if [ $startonboot = "1" ]; then
-        $OPENERP_ADMIN --start $name
+BASE="/srv/openerp/instances"
+
+check() {
+  instances=$(ls ${BASE} | wc -l)
+  if [ $instances -eq 0 ]; then
+    echo '  No instance seems to be installed'
+    exit 1
+  fi
+}
+
+openerp() {
+  
+  p=''
+  if [ -z $2 ]; then
+    for instances in $(ls ${BASE}/); do
+      if [ -d ${BASE}/${instances}/auto-run ]; then
+        p="$p $(find ${BASE}/${instances}/auto-run -type l)"
+      else
+        echo "  ${instances} present, but NO auto-run directory"
       fi
     done
-    echo -n "done"
-    echo
-    ;;
+  else
+    if [ ! -d "${BASE}/$2" ]; then
+      echo "  No such instance: $2"
+      exit 1
+    fi
+    p=$(find ${BASE}/$2/auto-run/ -type l)
+  fi
+  
+  for srv in $p; do
+    if [ -L $srv ]; then
+      su -c "$srv $1" openerp || echo "ERROR: unable to start $srv";
+    else
+      echo "  $srv seems to be broken"
+      exit 1
+    fi
+  done
+}
 
-  stop)
-    echo -n "Stopping OpenERP multi instances: "
-    for i in $($OPENERP_ADMIN --list |awk 'FNR>1' |awk '{ print $1 }'); do
-      $OPENERP_ADMIN --stop $i
-    done
-    echo -n "done"
-    echo
-    ;;
+check
 
+case $1 in
+  start|stop)
+  log_action_msg "$(basename $0) called to $1 OpenERP"
+  openerp $1 $2
+  ;;
+  restart)
+  log_action_msg "$(basename $0) called to $1 OpenERP"
+  openerp stop $2
+  sleep 2
+  openerp start $2
+  ;;
   *)
-    N=/etc/init.d/$NAME
-    echo "Usage: $N {start|stop}" >&2
-    exit 1
-    ;;
+  echo "$0 start|stop|restart"
+  exit 1
+  ;;
 esac
 exit 0
-

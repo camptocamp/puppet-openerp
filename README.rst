@@ -22,37 +22,39 @@ Multi-instance mode explaination
 ................................
 
 Instead of a standard installation with, for example, Debian/Ubuntu packages, our installation allows to have many OpenERP_ versions installed
-in parallel. Here's the directory structure of /srv/openerp/instances::
+in parallel. Here's the directory structure of /srv/openerp/instances (OpenERP v6.x)::
 
   /srv/openerp/instances
   ├── instance1
-  │   ├── auto-run 
+  │   ├── auto-run
   │   ├── bin 
   │   ├── config 
-  │   ├── init.d 
+  │   ├── init.d
   │   ├── log 
   │   ├── run 
   │   └── src 
   ├── intance2
-  │   ├── auto-run 
+  │   ├── auto-run
   │   ├── bin 
   │   ├── config 
-  │   ├── init.d 
+  │   ├── init.d
   │   ├── log 
   │   ├── run 
   │   └── src 
   └── instance3 
-      ├── auto-run 
+      ├── auto-run
       ├── bin 
       ├── config 
-      ├── init.d 
+      ├── init.d
       ├── log 
       ├── run 
       └── src 
   …
 
-This structure is deployed by a buildout_ receipt (not opensourced for now). It installs the wanted OpenERP_ version through bazaar. The init-script_ simply execute
-the startup scripts present in the *auto-run* directory. Scripts in *auto-run* directory are symlink to *init.d* content. This allow to activate or not instances at server startup.
+This structure is deployed by a buildout_ receipt (not opensourced for now). It installs the wanted OpenERP_ version through bazaar.
+
+Note about the init-script_: The init-script first checks if a symlink to an init script is found in the ``auto-run`` directory. If found, it will call this script with the argument ``start`` or ``stop`` to manage the OpenERP instance. If no such link is found, it checks for a ``supervisord`` installation in ``bin/`` and starts or stops this daemon to manage the OpenERP instance. It is your job to configure the OpenERP service in supervisord's configuration.
+
 
 -------------------
 Install with Puppet
@@ -187,7 +189,7 @@ Principe du mode multi-instance
 ...............................
 
 Contrairement à une installation standard via p.ex. le paquet Debian/Ubuntu, notre plate-forme d'installation permet d'installer en parallèle plusieurs versions d'OpenERP_ totalement cloisonnées.
-Voici la structure type du dossier /srv/openerp/instances::
+Voici la structure type du dossier /srv/openerp/instances (OpenERP v6.x)::
 
   /srv/openerp/instances
   ├── instance1
@@ -217,8 +219,10 @@ Voici la structure type du dossier /srv/openerp/instances::
   …
 
 Le déploiement de cette structure est réalisé par une recette buildout_ spécifique (pas fournie pour l'instant en OpenSource) qui installe via bazaar la version d'OpenERP souhaitée dans le dossier srv.
-Le `script d'init`_ se contente simplement d'exécuter les scripts de démarrage des différentes instances qui se trouvent dans le dossier *autorun*. 
-Dans *autorun* il s'agit finalement que d'un symlink depuis le dossier *init.d*, ceci permet d'activer ou pas le démarrage des instances au lancement du serveur.
+
+Note concernant l'init-script_ : Le script d'init vérifie si un lien symbolique vers un script de lancement est trouvé dans le dossier ``auto-run``. S'il est trouvé, il appelle ce script avec les arguments
+``start`` ou ``stop`` pour gérer l'instance OpenERP. Si un tel script n'est pas trouvé, il recherche une installation de ``supervisord`` dans ``bin/`` démarre ou arrête ce démon
+pour gérer l'instance OpenERP. La configuration de supervisord pour effectivement lancer openerp doit être faîte par vos soins.
 
 ---------------------
 Installer avec Puppet

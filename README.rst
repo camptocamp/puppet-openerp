@@ -26,7 +26,7 @@ in parallel. Here's the directory structure of /srv/openerp/instances::
 
   /srv/openerp/instances
   ├── instance1
-  │   ├── autorun 
+  │   ├── auto-run 
   │   ├── bin 
   │   ├── config 
   │   ├── init.d 
@@ -34,7 +34,7 @@ in parallel. Here's the directory structure of /srv/openerp/instances::
   │   ├── run 
   │   └── src 
   ├── intance2
-  │   ├── autorun 
+  │   ├── auto-run 
   │   ├── bin 
   │   ├── config 
   │   ├── init.d 
@@ -42,7 +42,7 @@ in parallel. Here's the directory structure of /srv/openerp/instances::
   │   ├── run 
   │   └── src 
   └── instance3 
-      ├── autorun 
+      ├── auto-run 
       ├── bin 
       ├── config 
       ├── init.d 
@@ -52,7 +52,7 @@ in parallel. Here's the directory structure of /srv/openerp/instances::
   …
 
 This structure is deployed by a buildout_ receipt (not opensourced for now). It installs the wanted OpenERP_ version through bazaar. The init-script_ simply execute
-the startup scripts present in the *autorun* directory. Scripts in *autorun* directory are symlink to *init.d* content. This allow to activate or not instances at server startup.
+the startup scripts present in the *auto-run* directory. Scripts in *auto-run* directory are symlink to *init.d* content. This allow to activate or not instances at server startup.
 
 -------------------
 Install with Puppet

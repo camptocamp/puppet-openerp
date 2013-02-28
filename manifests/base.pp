@@ -5,6 +5,7 @@ class openerp::base($groups=['dialout','postgres','adm']) {
     shell      => '/bin/bash',
     home       => '/srv/openerp',
     managehome => true,
+    system     => true,
     groups     => $groups,
     require    => Package['postgresql']
   }

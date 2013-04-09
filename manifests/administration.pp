@@ -4,6 +4,7 @@ class openerp::administration (
 
   group { 'openerp-admin':
     ensure => present,
+    system => true,
   }
 
   sudo::directive { 'openerp-administration':

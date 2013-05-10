@@ -1,5 +1,5 @@
 class openerp($groups=['dialout','postgres']) {
-  if $::lsbdistcodename != 'squeeze' {
+  if $::lsbdistcodename !~ /^(squeeze|wheezy)$/ {
     fail "Unsupported system ${::lsbdistcodename}"
   }
 

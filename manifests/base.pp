@@ -7,7 +7,7 @@ class openerp::base($groups=['dialout','postgres','adm']) {
     managehome => true,
     system     => true,
     groups     => $groups,
-    require    => Package['postgresql']
+    require    => Package['postgresql-server']
   }
 
   file {'/srv/openerp/.ssh':

@@ -13,55 +13,97 @@
 
 BASE="/srv/openerp/instances"
 
-check() {
-  instances=$(ls ${BASE} | wc -l)
-  if [ $instances -eq 0 ]; then
-    echo '  No instance seems to be installed'
-    exit 1
-  fi
-}
-
 openerp() {
-  
-  p=''
-  if [ -z $2 ]; then
-    for instances in $(ls ${BASE}/); do
-      if [ -d ${BASE}/${instances}/auto-run ]; then
-        p="$p $(find ${BASE}/${instances}/auto-run -type l)"
-      else
-        echo "  ${instances} present, but NO auto-run directory"
-      fi
-    done
-  else
-    if [ ! -d "${BASE}/$2" ]; then
-      echo "  No such instance: $2"
-      exit 1
-    fi
-    p=$(find ${BASE}/$2/auto-run/ -type l)
+  action=$1
+  shift
+  instances="$@"
+
+  if [ -z "$instances" ]; then
+    instances=$(ls ${BASE}/)
   fi
   
-  for srv in $p; do
-    if [ -L $srv ]; then
-      su -c "$srv $1" openerp || echo "ERROR: unable to start $srv";
+  for instance in ${instances}; do
+    if [ -d "${BASE}/${instance}" ]; then
+      openerp_instance $action $instance
     else
-      echo "  $srv seems to be broken"
-      exit 1
+      log_failure_msg "instance not found: ${instance}"
     fi
   done
 }
 
-check
+openerp_instance() {
+  action=$1
+  instance=$2
+
+  if [ -d ${BASE}/${instance}/auto-run ]; then
+    openerp_autorun $action $instance
+  elif [ -x ${BASE}/${instance}/bin/supervisord ]; then
+    openerp_supervisord $action $instance
+  else
+    log_failure_msg "no auto-run directory or supervisord found: ${instance}"
+  fi
+}
+
+openerp_autorun() {
+  action=$1
+  instance=$2
+
+  autorun_link=$(find ${BASE}/${instance}/auto-run -type l)
+  if [ ! -z ${autorun_link} ]; then
+    su -c "${autorun_link} ${action}" openerp
+    if [ $? -eq 0 ]; then
+      log_success_msg "instance ${action} successful: ${instance}"
+    else
+      log_failure_msg "auto-run script failed: ${instance}";
+    fi
+  fi
+
+}
+
+openerp_supervisord() {
+  action=$1
+  instance=$2
+
+  supervisord="${BASE}/${instance}/bin/supervisord"
+  supervisorctl="${BASE}/${instance}/bin/supervisorctl"
+  supervisor_sock="${BASE}/${instance}/var/supervisord.sock"
+
+  case $action in
+    start)
+    if [ ! -S ${supervisor_sock} ]; then
+      su -c "${supervisord}" openerp
+      if [ $? -eq 0 ]; then
+        log_success_msg "instance ${action} successful: ${instance}"
+      else
+        log_failure_msg "failed to start supervisord: ${instance}"
+      fi
+    else
+      log_warning_msg "instance already running: ${instance}"
+    fi
+    ;;
+    stop)
+    if [ -S ${supervisor_sock} ]; then
+      su -c "${supervisorctl} shutdown" openerp
+      if [ $? -eq 0 ]; then
+        log_success_msg "instance ${action} successful: ${instance}"
+      else
+        log_failure_msg "failed to shutdown supervisord: ${instance}"
+      fi
+    else
+      log_warning_msg "instance not running: ${instance}"
+    fi
+  esac
+}
 
 case $1 in
   start|stop)
-  log_action_msg "$(basename $0) called to $1 OpenERP"
-  openerp $1 $2
+  openerp $@
   ;;
   restart)
-  log_action_msg "$(basename $0) called to $1 OpenERP"
-  openerp stop $2
+  shift
+  openerp stop $@
   sleep 2
-  openerp start $2
+  openerp start $@
   ;;
   *)
   echo "$0 start|stop|restart"

@@ -7,7 +7,7 @@ class openerp::administration (
     system => true,
   }
 
-  sudo::directive { 'openerp-administration':
+  sudo::conf { 'openerp-administration':
     ensure  => present,
     content => template('openerp/sudoers.openerp.erb'),
     require => Group['openerp-admin'],

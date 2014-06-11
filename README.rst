@@ -51,7 +51,7 @@ in parallel. Here's the directory structure of /srv/openerp/instances::
       └── src 
   …
 
-This structure is deployed by a buildout_ receipt (not opensourced for now). It installs the wanted OpenERP_ version through bazaar. The init-script_ simply execute
+This structure is deployed by a buildout_ receipt (build your own from `Anybox Recipe`_). It installs the wanted OpenERP_ version through bazaar. The init-script_ simply execute
 the startup scripts present in the *autorun* directory. Scripts in *autorun* directory are symlink to *init.d* content. This allow to activate or not instances at server startup.
 
 -------------------
@@ -216,7 +216,7 @@ Voici la structure type du dossier /srv/openerp/instances::
       └── src 
   …
 
-Le déploiement de cette structure est réalisé par une recette buildout_ spécifique (pas fournie pour l'instant en OpenSource) qui installe via bazaar la version d'OpenERP souhaitée dans le dossier srv.
+Le déploiement de cette structure est réalisé par une recette buildout_ spécifique (créez la votre depuis `Anybox Recipe`_) qui installe via bazaar la version d'OpenERP souhaitée dans le dossier srv.
 Le `script d'init`_ se contente simplement d'exécuter les scripts de démarrage des différentes instances qui se trouvent dans le dossier *autorun*. 
 Dans *autorun* il s'agit finalement que d'un symlink depuis le dossier *init.d*, ceci permet d'activer ou pas le démarrage des instances au lancement du serveur.
 
@@ -299,6 +299,7 @@ Installer les librairies Python requises (voir `cette page`_)
 
 .. _`Camptocamp`: http://www.camptocamp.com/
 .. _`OpenERP`: http://openerp.camptocamp.com/
+.. _`Anybox Recipe`: https://pypi.python.org/pypi/anybox.recipe.openerp
 .. _`Puppet documentation`: http://docs.puppetlabs.com/learning/
 .. _`documentation Puppet`: http://docs.puppetlabs.com/learning/
 .. _`init-script`: files/etc/init.d/openerp-multi-instances
